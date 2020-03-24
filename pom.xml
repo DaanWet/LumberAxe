@@ -71,5 +71,12 @@
             <version>1.15.2-R0.1-SNAPSHOT</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>me.damascus2000.crazyadvancementsapi</groupId>
+            <artifactId>advancementsapi</artifactId>
+            <scope>system</scope>
+            <version>1.13.7</version>
+            <systemPath>D:/Users/Gebruiker/Documents/GitHub/LumberAxe/src/main/resources/CrazyAdvancementsAPI.jar</systemPath>
+        </dependency>
     </dependencies>
 </project>

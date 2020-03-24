@@ -5,13 +5,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 public final class LumberAxe extends JavaPlugin {
 
+
+    private LumberAdvancement adv;
+
     @Override
     public void onEnable() {
         // Plugin startup logic
         new CraftAxe(this).registerCraftingrecipe();
-        getServer().getPluginManager().registerEvents(new BlockBreak(), this);
-
+        adv = new LumberAdvancement(this);
+        getServer().getPluginManager().registerEvents(new BlockBreak(this), this);
+        getServer().getPluginManager().registerEvents(new InventoryChange(this), this);
     }
+
+    public LumberAdvancement getLumberAdvancement(){
+        return adv;
+    }
+
 
     @Override
     public void onDisable() {
