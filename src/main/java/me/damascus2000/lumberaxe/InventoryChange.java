@@ -7,9 +7,9 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.EntityPickupItemEvent;
-import org.bukkit.event.inventory.InventoryPickupItemEvent;
-import org.bukkit.inventory.ItemStack;
+import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.meta.ItemMeta;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class InventoryChange implements Listener {
 
@@ -24,15 +24,32 @@ public class InventoryChange implements Listener {
     public void onInvChange(EntityPickupItemEvent e){
         ItemMeta axe = new CraftAxe(plugin).getAxe().getItemMeta();
         ItemMeta item = e.getItem().getItemStack().getItemMeta();
-        if (e.getEntity() instanceof Player && item != null && item.hasDisplayName() && item.hasLore() &&  item.getDisplayName().equals(axe.getDisplayName()) &&  item.getLore().equals(axe.getLore())) {
+        if (e.getEntity() instanceof Player && item != null) {
             Player player = (Player) e.getEntity();
             AdvancementManager advancementManager = plugin.getLumberAdvancement().getAdvManager();
-            Advancement advancement = advancementManager.getAdvancement(new NameKey("custom", "root"));
-            advancementManager.addPlayer(player);
-            advancementManager.revokeAdvancement(player, advancement);
-            advancementManager.grantAdvancement(player, advancement);
-            advancement.displayMessageToEverybody(player);
+            NameKey namekey = new NameKey("custom", "root");
+            Advancement advancement = advancementManager.getAdvancement(namekey);
+            if ( advancement.isGranted(player) && item.hasDisplayName() && item.hasLore() &&
+                    item.getDisplayName().equals(axe.getDisplayName()) && item.getLore().equals(axe.getLore())) {
+
+                advancementManager.grantAdvancement(player, advancement);
+                advancement.displayMessageToEverybody(player);
+                advancementManager.saveProgress(player, "custom");
+            }
         }
+    }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                AdvancementManager advm = plugin.getLumberAdvancement().getAdvManager();
+                advm.loadProgress(e.getPlayer(), "custom");
+                advm.addPlayer(e.getPlayer());
+            }
+        }.runTaskLater(plugin, 5);
     }
 
 

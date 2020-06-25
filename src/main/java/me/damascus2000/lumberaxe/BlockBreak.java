@@ -1,6 +1,5 @@
 package me.damascus2000.lumberaxe;
 
-import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.enchantments.Enchantment;
@@ -17,7 +16,6 @@ import java.util.*;
 public class BlockBreak implements Listener {
 
     private Random random = new Random();
-
 
     private ArrayList<Material> wood = new ArrayList<>(Arrays.asList(Material.ACACIA_LOG, Material.BIRCH_LOG, Material.OAK_LOG,
             Material.DARK_OAK_LOG, Material.JUNGLE_LOG, Material.SPRUCE_LOG));
@@ -39,7 +37,7 @@ public class BlockBreak implements Listener {
     public void onBlockBreak(BlockBreakEvent e) {
         ItemMeta item = e.getPlayer().getInventory().getItemInMainHand().getItemMeta();
         ItemMeta axe = new CraftAxe(plugin).getAxe().getItemMeta();
-        if (item != null &&  item.hasDisplayName() && item.getDisplayName().equals(axe.getDisplayName())
+        if (item != null &&  item.hasDisplayName()
                 && item.hasLore() && item.getLore().equals(axe.getLore())
                 && e.getPlayer().isSneaking()) {
             if (wood.contains(e.getBlock().getType())) {
