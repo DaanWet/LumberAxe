@@ -1,7 +1,0 @@
-name: LumberAxe
-version: 1.0-SNAPSHOT
-main: me.damascus2000.lumberaxe.LumberAxe
-api-version: 1.15
-prefix: LumberAxe
-authors: [Damascus2000]
-depend: [CrazyAdvancementsAPI]
